@@ -1,3 +1,6 @@
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/start.PNG)
+
 # Welcome to plothelper
 # 帮助你happy地画沙雕图表的R包plothelper
 
@@ -55,7 +58,10 @@ p+scale_x_discrete(name="")+scale_y_continuous(name="number")+
 		axis.text=element_text(size=16, color="black"),
 		axis.ticks.y=element_blank(), 
 		axis.line.x=element_line(color="black")
-	)	
+	)
+```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/gg_shading_bar%201.PNG)
 
 注意渐变方式有两种：
 
@@ -66,12 +72,16 @@ v=c(-2, -3, 4, 8, 10, 15)
 gg_shading_bar(v, flip=TRUE)
 ```
 
-第二种是每个条形根据它所代表的数值的大小使用部分颜色。请注意，下图与上图使用的都是从蓝色到红色的渐变，但它们之间是有区别的。
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/gg_shading_bar%202.PNG)
+
+第二种是每个条形根据它所代表的数值的大小使用部分颜色。请注意，下图与上图使用的都是从蓝色到红色的渐变，但条形的渐变方式是不同的。
 
 ```R
 v=c(-2, -3, 4, 8, 10, 15)
 gg_shading_bar(v, flip=TRUE, equal_scale=TRUE)
 ```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/gg_shading_bar%203.PNG)
 
 ### geom_rect_cm用来画（因为以厘米为单位所以）形状不随坐标系和aspect ratio改变的矩形。
 
@@ -83,6 +93,8 @@ ggplot()+xlim(-0.5, 10.5)+ylim(0, 3)+
 	geom_polygon(aes(x=c(0, 1, 1, 0), y=c(0, 0, 1, 1)), fill="blue")
 ```
 
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/geom_rect_cm.PNG)
+
 ### geom_circle_cm用来画不随坐标系aspect ratio变化的圆形。适合用来对图表的某个区域作标注。
 
 ```R
@@ -90,6 +102,8 @@ dat=data.frame(x=1: 10, y=rep(5, 10), R=rep(c(0.5, 1), 5))
 ggplot(dat)+coord_fixed()+xlim(0, 11)+ylim(1, 9)+
   geom_circle_cm(aes(x=x, y=y, rcm=R))
 ```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/geom_circle_cm%201.PNG)
 
 即使使用极坐标，形状也不会改变。
 
@@ -100,15 +114,17 @@ ggplot() + coord_polar()+xlim(0, 11)+ylim(1, 9)+theme_void()+theme(plot.backgrou
   geom_line(aes(x=c(0, 11), y=c(8, 8)), color="grey")
 ```
 
-### geom_ellipse_cm用来画形状不随坐标系和aspect ratio改变的椭圆形。需要注意的是：需要用参数rcm来调整大小，用ab来调整圆被压扁的程度，但这两个数都无法严格指定椭圆的长半径和短半径（也就是说，无法像a=2, b=1这样指定半径）。
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/geom_circle_cm%202.PNG)
+
+### geom_ellipse_cm用来画形状不随坐标系和aspect ratio改变的椭圆形。要注意的是：需要用参数rcm来调整大小，用ab来调整圆被压扁的程度，但这两个数都无法严格指定椭圆的长半径和短半径（也就是说，无法像a=2, b=1这样指定半径）。
 
 ```R
 dat=data.frame(x=1: 10, y=rep(5, 10), R=rep(c(0.5, 1), 5))
 ggplot(dat) + coord_fixed()+xlim(0, 11)+ylim(1, 9)+
-  geom_ellipse_cm(aes(x=x, y=y, rcm=R, linetype=factor(x)), fill="red", alpha=0.5, size=2)
-ggplot(dat) + coord_fixed()+xlim(0, 11)+ylim(1, 9)+
   geom_ellipse_cm(aes(x=x, y=y, rcm=R), ab=2)  
 ```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/geom_ellipse.cm.PNG)
 
 ## 第二类函数：批量生成矩形、椭圆形的坐标，但并不画图；而生成的坐标适于用geom_polygon或geom_path等来画图。
 
@@ -124,13 +140,17 @@ ggplot()+
 	geom_polygon(show.legend=FALSE, data=dat1, aes(x=x, y=y, group=g, fill=factor(g)), alpha=0.3)
 ```
 
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/ellipsexy.PNG)
+
 ### rectxy用来生成矩形的坐标（用a和b控制宽和高，用angle控制旋转角度）。
 
 ```R
 dat1=rectxy(x=1: 5, y=1: 5, a=2, b=1, angle=seq(0, pi, length.out=5), xytype="middle", todf=TRUE)
 ggplot()+coord_fixed()+
-	geom_polygon(data=dat1, aes(x, y, group=g, fill=factor(g)), alpha=0.5)
+	geom_polygon(show.legend=FALSE, data=dat1, aes(x, y, group=g, fill=factor(g)), alpha=0.5)
 ```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/rectxy.PNG)
 
 ### ANYxy，给出能够画出图形（任何图形！）的函数，ANYxy就能批量生成坐标，所以特别适合画各种沙雕图形。
 
@@ -147,6 +167,8 @@ dat=ANYxy(myfun=x_square,
 ggplot(dat)+geom_polygon(show.legend=FALSE, aes(x, y, group=g, fill=factor(g)), alpha=0.3)
 ```
 
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/ANY.PNG)
+
 ## 第三类函数用来做线性变换，包括：对称、旋转、拉伸。
 
 ### ABCxy，关于Ax+By+C=0对称；也可给出过这条线的两个点p1、p2。
@@ -162,6 +184,8 @@ ggplot()+
 	geom_abline(intercept=3, slope=-1)	
 ```
 
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/ABCxy.PNG)
+
 ### rotatexy，用来旋转。
 
 ```R
@@ -172,9 +196,12 @@ ggplot()+
 	geom_polygon(show.legend=FALSE, data=dat2, aes(x=x, y=y, group=g, fill=factor(g)), alpha=0.2)	
 ```
 
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/rotatexy.PNG)
+
 ### stretchxy，用来拉伸，就不放图了。
 
 # 以上介绍了plothelper包的主要功能。祝大家玩儿得happy。
 
 # END
+
 
