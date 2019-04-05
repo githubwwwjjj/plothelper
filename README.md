@@ -126,6 +126,18 @@ ggplot(dat) + coord_fixed()+xlim(0, 11)+ylim(1, 9)+
 
 ![image](https://github.com/githubwwwjjj/plothelper/blob/master/geom_ellipse.cm.PNG)
 
+### textgif用来生成小广告风格的文字gif。我自己用这个做表情包。
+
+```R
+mytext=c("佩服三连", "厉害厉害", "可以可以", "666")
+color1=c("khaki", "orange", "orangered", "orangered1")
+color2=rep("black", 4)
+g=textgif(mytext, text_color=color1, bg_color=color2, fps=2)
+# mgaick::image_write(g, "f:/GGG.gif", format="gif") # 假设要以"f:/GGG.gif"为文件名保存
+```
+
+<img width="400" height="200" src="https://github.com/githubwwwjjj/plothelper/blob/master/textgif.gif">
+
 ## 第二类函数：批量生成矩形、椭圆形的坐标，但并不画图；而生成的坐标适于用geom_polygon或geom_path等来画图。
 
 ### ellipsexy生成椭圆形和圆形（用a和b控制长半径和短半径，用angle控制旋转角度）。
@@ -204,5 +216,4 @@ ggplot()+
 
 # END
 
-
-
+本文地址：https://github.com/githubwwwjjj/plothelper/blob/master/README.md
