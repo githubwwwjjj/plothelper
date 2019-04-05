@@ -31,7 +31,7 @@ plothelper里的函数分成三类，第一类用于画图，第二类用于生�
 
 ## 第一类，用于画图的函数
 
-### gg_shading_bar用来画渐变条形图。生成的图象对可以和ggplot的其他图层叠加。但注意不要再往上加ggplot()了，也不要使用coord_fixed()。另外，gg_shading_bar跟geom_bar的区别在于前者只接受计算好的数值向量。
+### gg_shading_bar用来画渐变条形图。生成的图象可以和ggplot的其他图层叠加。但注意不要再往上加ggplot()了，也不要使用coord_fixed()。另外，gg_shading_bar跟geom_bar的区别在于前者只接受计算好的数值向量。
 
 先放一个效果图吧。
 
