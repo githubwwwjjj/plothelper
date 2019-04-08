@@ -1,5 +1,5 @@
 
-<img width="430" height="320" src="https://github.com/githubwwwjjj/plothelper/blob/master/start.PNG">
+<img width="430" height="320" src="https://github.com/githubwwwjjj/plothelper/blob/master/w5.PNG">
 
 # Welcome to plothelper
 # 帮助你happy地画沙雕图表的R包plothelper
