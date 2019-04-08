@@ -1,12 +1,12 @@
 
-<img width="400" height="400" src="https://github.com/githubwwwjjj/plothelper/blob/master/start.PNG">
+<img width="430" height="320" src="https://github.com/githubwwwjjj/plothelper/blob/master/start.PNG">
 
 # Welcome to plothelper
 # 帮助你happy地画沙雕图表的R包plothelper
 
 # 这个包可用来绘制渐变条形图、形状不随坐标系变化的（椭）圆形和矩形，或用来批量生成坐标点。
 # 编写者：Jiang Wu (吴江，首都师范大学)，E-MAIL：textidea %%% sina.com （请把%%%换成@）。
-# 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册。
+# 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册：https://github.com/githubwwwjjj/plothelper/blob/master/README.md
 
 # 一、使用方法
 # 要保证R的版本>=3.5.0；同时要保证ggplot2是最新版本（如果不知道是什么版本请重新安装一回）。
