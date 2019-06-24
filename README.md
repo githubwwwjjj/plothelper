@@ -171,7 +171,7 @@ ggplot()+
 	annotation_shading_polygon(poly, xmin=1, xmax=5, ymin=-1, ymax=1, raster=m)
 ```
 
-<img width="400" height="180" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20example%20shade%20poly.png">
+<img width="400" height="170" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20example%20shade%20poly.png">
 
 
 # 用图片形状截取
@@ -186,7 +186,7 @@ ggplot()+xlim(-1, 1)+ylim(0, 2.5)+coord_fixed()+
 	annotation_shading_polygon(shape=img, xmin=0, xmax=1, ymin=0, ymax=2.5, raster=blues)
 ```
 
-<img width="200" height="600" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20shade%20kula.png">
+<img width="200" height="500" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20shade%20kula.png">
 
 ## 第二类函数：批量生成矩形、椭圆形的坐标，但并不画图；而生成的坐标适于用geom_polygon或geom_path等来画图。
 
