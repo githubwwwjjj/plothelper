@@ -4,9 +4,11 @@
 # Welcome to plothelper
 # 帮助你happy地画沙雕图表的R包plothelper
 
+# 2019-06-24更新0.1.3版，新加annotation_transparent_text函数用来加透明文字，annotation_shading_polygon用来画不规则渐变多边形，这就弥补了annotation_raster只能画渐变矩形的不足。具体用法见下边的例子。
+
 # 这个包可用来绘制渐变条形图、形状不随坐标系变化的（椭）圆形和矩形，或用来批量生成坐标点。
 # 编写者：Jiang Wu (吴江，首都师范大学)，E-MAIL：textidea %%% sina.com （请把%%%换成@）。
-# 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册：https://github.com/githubwwwjjj/plothelper/blob/master/README.md
+# 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册：http://mirrors.ustc.edu.cn/CRAN/web/packages/plothelper/plothelper.pdf
 
 # 一、使用方法
 # 要保证R的版本>=3.5.0；同时要保证ggplot2是最新版本（如果不知道是什么版本请重新安装一回）。
@@ -16,7 +18,7 @@
 ```R
 install.packages("plothelper")
 library(plothelper)
-library(ggplot2)
+library(magick)
 ```
 
 # 二、函数介绍
@@ -132,6 +134,60 @@ g=textgif(mytext, text_color=color1, bg_color=color2, fps=2)
 
 <img width="400" height="200" src="https://github.com/githubwwwjjj/plothelper/blob/master/textgif.gif">
 
+### annotation_transparent_text，透明文字，主要作用就是画那种底下的颜色能够透过来的文字，当然，放置字的那个label也可以是图片之类的东西，具体请看这个函数的文档中关于参数bg的说明。
+
+```R
+m=colorRampPalette(rainbow(7))(20)
+m=matrix(m, nrow=1)
+ggplot()+coord_fixed()+
+	xlim(0, 7)+ylim(-2, 4)+theme_void()+
+	annotation_raster(
+		raster=m, 
+		xmin=0, ymin=-3, 
+		xmax=7, ymax=5, 
+		interpolate=TRUE
+	)+
+	annotation_transparent_text(
+		label="R\nDATA\nVISUALIZATION", 
+		xmin=0, xmax=7, 
+		ymin=-1, ymax=3, 
+		family="sans", fontface=2, alpha=0.6, 
+		place="left", expand=c(0.08, 0.02)
+	)
+```
+
+<img width="400" height="410" src="https://github.com/githubwwwjjj/plothelper/blob/master/trans%20text%201.PNG">
+
+### annotation_shading_polygon，用来画不规则渐变图形，渐变的颜色可以是一个普通的raster，也可以是图片的一部分（其实图片也是作为raster被读入的）。
+
+```R
+poly=ellipsexy(-1, 0, a=1, b=1)
+m=matrix(rainbow(10), nrow=1)
+ggplot()+
+	coord_fixed(expand=FALSE)+
+	scale_y_continuous(limits=c(-1.5, 1.5))+
+	scale_x_continuous(limits=c(-3, 6), breaks=-3: 6, labels=-3: 6)+
+	annotation_shading_polygon(poly, raster=m)+
+	annotation_shading_polygon(poly, xmin=1, xmax=5, ymin=-1, ymax=1, raster=m)
+```
+
+<img width="400" height="180" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20example%20shade%20poly.png">
+
+
+# 用图片形状截取
+
+```R
+library(magick)
+img=image_read("###图片kula.png") # 从https://github.com/githubwwwjjj/plothelper/blob/master/kula.png下载图片
+img=image_resize(img, "100x300!")
+blues=matrix(c("purple", "deepskyblue1", "midnightblue", "midnightblue", "black", "yellow"))
+ggplot()+xlim(-1, 1)+ylim(0, 2.5)+coord_fixed()+
+	annotation_raster(img, xmin=-1, xmax=0, ymin=0, ymax=2.5)+
+	annotation_shading_polygon(shape=img, xmin=0, xmax=1, ymin=0, ymax=2.5, raster=blues)
+```
+
+<img width="200" height="600" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20shade%20kula.png">
+
 ## 第二类函数：批量生成矩形、椭圆形的坐标，但并不画图；而生成的坐标适于用geom_polygon或geom_path等来画图。
 
 ### ellipsexy生成椭圆形和圆形（用a和b控制长半径和短半径，用angle控制旋转角度）。
@@ -205,6 +261,7 @@ ggplot()+
 ![image](https://github.com/githubwwwjjj/plothelper/blob/master/rotatexy.PNG)
 
 ### stretchxy，用来拉伸，就不放图了。
+
 
 # 以上介绍了plothelper包的主要功能。祝大家玩儿得happy。
 
