@@ -1,5 +1,8 @@
 
+
 <img width="430" height="320" src="https://github.com/githubwwwjjj/plothelper/blob/master/w5.PNG">
+
+<img width="417" height="285" src="https://github.com/githubwwwjjj/plothelper/blob/master/bar_spiderman2.PNG">
 
 # Welcome to plothelper
 # 帮助你happy地画沙雕图表的R包plothelper
@@ -128,7 +131,8 @@ ggplot(dat) + coord_fixed()+xlim(0, 11)+ylim(1, 9)+
 mytext=c("佩服三连", "厉害厉害", "可以可以", "666")
 color1=c("khaki", "orange", "orangered", "orangered1")
 color2=rep("black", 4)
-g=textgif(mytext, text_color=color1, bg_color=color2, fps=2)
+g=textgif(mytext, text_color=color1, bg_color=color2, fps=2, width=259, height=129) 
+# width和height根据需要随便调
 # mgaick::image_write(g, "f:/GGG.gif", format="gif") # 假设要以"f:/GGG.gif"为文件名保存
 ```
 
@@ -174,7 +178,7 @@ ggplot()+
 <img width="400" height="160" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20example%20shade%20poly.png">
 
 
-# 用图片形状截取
+### 用图片形状截取
 
 ```R
 library(magick)
@@ -187,6 +191,23 @@ ggplot()+xlim(-1, 1)+ylim(0, 2.5)+coord_fixed()+
 ```
 
 <img width="200" height="400" src="https://github.com/githubwwwjjj/plothelper/blob/master/git%20shade%20kula.png">
+
+### 生成带图案的条形图（或其他什么图）
+
+#### 本说明开头的那个带蜘蛛侠图片的条形图怎么做的呢——只需三步！
+
+```R
+# 第一步：读图片
+img=magick::image_read("https://raw.githubusercontent.com/githubwwwjjj/plothelper/master/spiderman.PNG")
+
+# 第二步：画条形图
+p=ggplot()+geom_bar(aes(x=1: 5, y=1: 5), stat="identity")+coord_flip()
+
+# 第三步：合在一起
+p=ggplot()+annotation_shading_polygon(shape=p, raster=img)
+p+theme_void()+theme(plot.background=element_rect(fill="grey10"))
+```
+
 
 ## 第二类函数：批量生成矩形、椭圆形的坐标，但并不画图；而生成的坐标适于用geom_polygon或geom_path等来画图。
 
