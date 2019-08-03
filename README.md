@@ -7,6 +7,8 @@
 # Welcome to plothelper
 # 帮助你happy地画沙雕图表的R包plothelper
 
+# 2019-08-02更新0.1.4版，解决了annotation_transparent_text和annotation_shading_polygon可能生成过大图片的问题。
+
 # 2019-06-24更新0.1.3版，新加annotation_transparent_text函数用来加透明文字，annotation_shading_polygon用来画不规则渐变多边形，这就弥补了annotation_raster只能画渐变矩形的不足。具体用法见下边的例子。
 
 # 这个包可用来绘制渐变条形图、形状不随坐标系变化的（椭）圆形和矩形，或用来批量生成坐标点。
@@ -194,7 +196,7 @@ ggplot()+xlim(-1, 1)+ylim(0, 2.5)+coord_fixed()+
 
 ### 生成带图案的条形图（或其他什么图）
 
-#### 本说明开头的那个带蜘蛛侠图片的条形图怎么做的呢——只需三步！
+### 本说明开头的那个带蜘蛛侠图片的条形图怎么做的呢——只需三步！
 
 ```R
 # 第一步：读图片
