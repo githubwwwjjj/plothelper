@@ -1,11 +1,12 @@
 
-
 <img width="430" height="320" src="https://github.com/githubwwwjjj/plothelper/blob/master/w5.PNG">
 
 <img width="417" height="285" src="https://github.com/githubwwwjjj/plothelper/blob/master/bar_spiderman2.PNG">
 
 # Welcome to plothelper
-# 帮助你happy地画沙雕图表的R包plothelper
+# 帮助你happy地画渐变条形图或其他沙雕图表的R包plothelper
+
+# 2019-11-05更新0.1.5版，增加了多个函数，包括：geom_multi_raster（一次画多个raster）、geom_shading_bar（画渐变条形图的图层）、get_click_color（通过鼠标点击取色）、image_col_numeric（根据灰度着色）、image_keep_color（保留个别颜色并把其他部分变为黑白）、image_modify_hsv和image_modify_rgb（调整H、S、V、R、G、B通道，特别是用内置的S曲线和C曲线进行调整）。下文有对这些函数的介绍。
 
 # 2019-08-02更新0.1.4版，解决了annotation_transparent_text和annotation_shading_polygon可能生成过大图片的问题。
 
@@ -24,15 +25,16 @@
 install.packages("plothelper")
 library(plothelper)
 library(magick)
+library(tibble)
 ```
 
 # 二、函数介绍
 
-plothelper里的函数分成三类，第一类用于画图，第二类用于生成图形的坐标，第三类用于线性变换。
+plothelper里的函数分成四类，第一类用于画图，第二类用于生成图形的坐标，第三类用于线性变换，第四类用于处理图片（也就是那些image_*的函数）。
 
 ## 第一类，用于画图的函数
 
-### gg_shading_bar用来画渐变条形图。生成的图象对可以和ggplot的其他图层叠加。但注意不要再往上加ggplot()了，也不要使用coord_fixed()。另外，gg_shading_bar跟geom_bar的区别在于前者只接受计算好的数值向量。
+### geom_shading_bar是一个像geom_point一样的图层，可以代替gg_shading_bar。两者都是用来画渐变条形图的，但前者既然是图层，那显然更加灵活，推荐使用。而gg_shading_bar生成的图象也可以和ggplot的其他图层叠加。但注意不要再往上加ggplot()了，也不要使用coord_fixed()。另外，gg_shading_bar跟geom_bar的区别在于前者只接受计算好的数值向量。
 
 先放一个效果图吧。
 
@@ -48,7 +50,16 @@ r=list(
 	c("darkorchid2", "yellow"), 
 	c("forestgreen", "brown2")
 )
+
+# 写法一
 p=gg_shading_bar(v, raster=r, smooth=40, flip=TRUE)
+
+# 写法二
+tib=tibble(x=paste("x", 1: 6, sep=""), v, r)
+p=ggplot(tib)+coord_flip()+
+	geom_shading_bar(aes(x=x, y=v, raster=r), flip=TRUE)
+
+# 不管用以上哪种写法，都可以往上加东西
 p=p+geom_text(aes(x=1: length(v), y=v+1, label=v), size=6)
 p+scale_x_discrete(name="")+scale_y_continuous(name="number")+
 	theme(
@@ -83,6 +94,20 @@ gg_shading_bar(v, flip=TRUE, equal_scale=TRUE)
 ```
 
 <img width="500" height="300" src="https://github.com/githubwwwjjj/plothelper/blob/master/gg_shading_bar%203.PNG">
+
+### geom_multi_raster可以一次把多个raster画上，也就是说，可以代替annotation_raster
+
+```R
+r1=image_read("###图片kula.png") # 从https://github.com/githubwwwjjj/plothelper/blob/master/kula.png下载图片
+r2=matrix(c("red", "green", "blue", "purple"), nrow=2)
+r3=matrix(rainbow(7))
+r=list(r1, r2, r3)
+tib=tibble::tibble(xmin=c(1, 3, 5), xmax=c(2, 4, 8), ymin=c(0, 2, 3), ymax=c(3, 4, 6), r)
+ggplot(tib)+
+	geom_multi_raster(aes(xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax, raster=r))
+```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/geom_multi_raster.PNG)
 
 ### geom_rect_cm用来画（因为以厘米为单位所以）形状不随坐标系和aspect ratio改变的矩形。
 
@@ -183,7 +208,6 @@ ggplot()+
 ### 用图片形状截取
 
 ```R
-library(magick)
 img=image_read("###图片kula.png") # 从https://github.com/githubwwwjjj/plothelper/blob/master/kula.png下载图片
 img=image_resize(img, "100x300!")
 blues=matrix(c("purple", "deepskyblue1", "midnightblue", "midnightblue", "black", "yellow"))
@@ -196,7 +220,7 @@ ggplot()+xlim(-1, 1)+ylim(0, 2.5)+coord_fixed()+
 
 ### 生成带图案的条形图（或其他什么图）
 
-### 本说明开头的那个带蜘蛛侠图片的条形图怎么做的呢——只需三步！
+#### 本说明开头的那个带蜘蛛侠图片的条形图怎么做的呢——只需三步！
 
 ```R
 # 第一步：读图片
@@ -284,6 +308,26 @@ ggplot()+
 ![image](https://github.com/githubwwwjjj/plothelper/blob/master/rotatexy.PNG)
 
 ### stretchxy，用来拉伸，就不放图了。
+
+## 第四类函数用来做图片处理。目前能做的处理有什么，从下边的代码和示意图中可以看到。
+
+```R
+img=image_read("###图片spiderman.png") # 从https://github.com/githubwwwjjj/plothelper/blob/master/spiderman.PNG下载图片
+
+# 保存一种或几种颜色并把其他部分变成黑白。由color指定颜色，如果color="click"，则可在图片上点选。fuzz是要保留的颜色离指定的颜色有多近。比如，当color="red"并且fuzz=0时，只有红色会被保留下来；但若设fuzz=20，则接近红色的颜色也会被保留下来。fuzz的值域是0至100。
+image_keep_color(img, color="red", fuzz=20)
+
+# 根据灰度重新着争（实际是调用了scales::col_numeric），n是指定要保留几种颜色，最大是256。
+image_col_numeric(img, palette=c("orangered", "blue", "green"), n=100)
+
+# 调整hsv的值。本例是先把s的值rescale到一个值域中，再利用S曲线调整v的值。其他用法见英文说明。
+image_modify_hsv(img, rescale_s=c(0.5, 0.8), fun_v=list("s", c1=-2, c2=2))
+
+# 调整rgb的值。本例是用C曲线调整r的值。其他用法见英文说明书。
+image_modify_rgb(img, fun_r=list("c", value=0.9))
+```
+
+![image](https://github.com/githubwwwjjj/plothelper/blob/master/image_function.png)
 
 
 # 以上介绍了plothelper包的主要功能。祝大家玩儿得happy。
