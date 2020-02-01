@@ -5,7 +5,10 @@
 
 # Welcome to plothelper
 
-# 帮助你happy地用ggplot2和magick画渐变条形图或其他沙雕图表的R包plothelper。现在magick已经成了R里边的主流图片处理软件了，我希望大家不仅用它和ggplot2来画图表，而且还可以尝试用它们来做PPT或海报之类的
+# 帮助你happy地用ggplot2和magick画各种带渐变效果的图表（特别是渐变条形图）或其他沙雕图表的R包plothelper。现在magick已经成了R里边的主流图片处理软件了，我希望大家不仅用它和ggplot2来画图表，而且还可以尝试用它们来做PPT或海报之类的。
+
+# 编写者：Jiang Wu (吴江，首都师范大学)，E-MAIL：textidea %%% sina.com （请把%%%换成@）。
+# 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册：http://mirrors.ustc.edu.cn/CRAN/web/packages/plothelper/plothelper.pdf
 
 # 2020-02-02更新到0.1.7版。0.1.5至0.1.7的升级主要是添加了一些基于magick包的函数，特别是一些能够用鼠标点击的函数，请大家查看英文文档以便了解这些函数的用法。总结起来：
 
@@ -27,9 +30,6 @@
 # 2019-08-02更新0.1.4版，解决了annotation_transparent_text和annotation_shading_polygon可能生成过大图片的问题。
 
 # 2019-06-24更新0.1.3版，新加annotation_transparent_text函数用来加透明文字，annotation_shading_polygon用来画不规则渐变多边形，这就弥补了annotation_raster只能画渐变矩形的不足。具体用法见下边的例子。
-
-# 编写者：Jiang Wu (吴江，首都师范大学)，E-MAIL：textidea %%% sina.com （请把%%%换成@）。
-# 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册：http://mirrors.ustc.edu.cn/CRAN/web/packages/plothelper/plothelper.pdf
 
 # 一、使用方法
 # 要保证R的版本>=3.5.0；同时要保证ggplot2和magick是最新版本（如果不知道是什么版本请重新安装一回）。
