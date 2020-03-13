@@ -5,10 +5,15 @@
 
 # Welcome to plothelper
 
-# 帮助你happy地用ggplot2和magick画各种带渐变效果的图表（特别是渐变条形图）或其他沙雕图表的R包plothelper。现在magick已经成了R里边的主流图片处理软件了，我希望大家不仅用它和ggplot2来画图表，而且还可以尝试用它们来做PPT或海报之类的。
+# 帮助你happy地用ggplot2和magick画各种带渐变效果的图表（特别是渐变条形图）或其他沙雕图表的R包plothelper。现在magick已经成了R里边的主流图片处理包了，我希望大家不仅用它和ggplot2来画图表，而且还可以尝试用它们来做PPT或海报之类的。
 
 # 编写者：Jiang Wu (吴江，首都师范大学)，E-MAIL：textidea %%% sina.com （请把%%%换成@）。
 # 本文只是展示一下这个包的功能，具体的参数设置和使用方法还请看详细的英文手册：http://mirrors.ustc.edu.cn/CRAN/web/packages/plothelper/plothelper.pdf
+
+# 2020-03-13 更新到0.1.8版。
+### 添加image_transparent_inverse。这个与image_transparent相反。后者是把选定的颜色变为透明，前者是把选定的颜色以外的颜色变为透明。
+### 本包中所有image_*形式的函数的运行速度都大大提升了。
+### 与ggplot2第3.3.0相匹套，在geom_shading_bar里多加了一个orientation参数。这样，画水平条形图时就不需要coord_flip了。
 
 # 2020-02-02更新到0.1.7版。0.1.5至0.1.7的升级主要是添加了一些基于magick包的函数，特别是一些能够用鼠标点击的函数，请大家查看英文文档以便了解这些函数的用法。总结起来：
 
